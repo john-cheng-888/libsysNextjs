@@ -6,3 +6,10 @@ export interface ApiResponse<T>{
    message?:string;
    timestamp:Date;
 }
+// With as const:
+export const LOG_LEVEL = {
+  Info:  'info',
+  Warn:  'warn',
+  Error: 'error',
+  Debug: 'debug'
+} as const
