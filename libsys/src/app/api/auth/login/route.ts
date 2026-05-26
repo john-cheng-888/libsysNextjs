@@ -14,17 +14,22 @@ import jwt from 'jsonwebtoken';
 import db from '@/lib/db';
 import {okResponse,errResponse} from '@/lib/util';
 import {IJwtPayload} from '@/types/auth';
-import { resolve } from "path";
-import { GSSP_COMPONENT_MEMBER_ERROR } from "next/dist/lib/constants";
-import { Rowdies } from "next/font/google";
 //   return RedirectToAction(...)  → we return JWT cookie
 export async function POST(req:NextRequest) {
     try{
         //get param from request object
         const {userId,password,captcha} =await req.json();
         //get stored captcha from cookie,忘了就回去「/api/auth/capthcha/route.ts」看一下
+        
         const cookieStore=await cookies();
         const storedCapthcha=cookieStore.get('captcha_code')?.value;
+        /**
+         * 上述cookies的用法,也可以直接從req.cookies.get(....)
+         * 總之,如果沒有NextRequst可用時,就用await cookies();
+         * 有就用req.cookies()
+         * 比較直覺
+         */
+
         if(!storedCapthcha ||storedCapthcha!=captcha){
             return errResponse("Captcha Not Match!!",401);
         }
@@ -72,13 +77,13 @@ export async function POST(req:NextRequest) {
             maxAge:8*60*60,//8hr
             path:'/'
         });
-        //resonse to client,seccess
+        //response to client,login successfully
         return okResponse(
             {
                 userId:member.icno,
                 name:member.name,
                 roles
-            },'login succesfully'
+            },'login successfully'
         );
 
     }catch(err){
