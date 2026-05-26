@@ -1,6 +1,7 @@
 // src/store/uiStore.ts
 // Zustand store — replaces UIContext
 // No Provider needed — just import and use anywhere
+import { calculateToastDuration } from '@/lib/uiHelper';
 import {create } from 'zustand';
 //modal 
 interface ModalState{
@@ -47,7 +48,9 @@ export const useUIStore=create<UIStore>((set)=>({
     showToast: (message,duration=3000)=>set(
          { toast:{
             message,
-            duration:(message.length>50 && duration<5000)?5000:duration
+            //duration:(message.length>50 && duration<5000)?5000:duration
+            //duration of toast ,need calculation,moved to lib
+            duration:calculateToastDuration(message,duration)
          }}
     ),
     hideToast: ()=>set({toast:null})    
