@@ -14,7 +14,6 @@ export async function serverFetch(
     const cookieStore=await cookies();
     const token=cookieStore.get('auth_token')?.value;//別忘了「.value」,不然會是個name+value物件
     const url=path.startsWith('http')?path:`${BASE_URL}${path}`;
-    //Ha~TATATATATATATA....
     const resp=await fetch(url,{
         ...options,
         headers:{
@@ -26,6 +25,5 @@ export async function serverFetch(
             ...options.headers
         },cache:'no-store'
     });
-    //OWATA !!!!
     return resp;   
  }

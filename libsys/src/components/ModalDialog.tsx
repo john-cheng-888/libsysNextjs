@@ -14,6 +14,7 @@ export default function ModalDialog(){
         //--setup ----
         const handleKey=(e:KeyboardEvent)=>{
             if(e.key==='Escape' && modal){
+                if(modal?.hideCancel)return;
                 modal.onCancel?.();
                 hideModal()
             }
@@ -34,6 +35,9 @@ export default function ModalDialog(){
         hideModal();
     }
     const handleCancel=()=>{
+        //if hide cancel button,means user must click ok,
+        //so we have to disable "click outside to close "feature if "modal.hideCancel===true".
+        if(modal.hideCancel) return ;
         modal.onCancel?.();
         hideModal();
     }

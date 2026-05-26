@@ -7,7 +7,7 @@ interface ModalState{
     title:  string,
     message:    string,
     onOk: ()=>void,
-    onCancel: ()=>void,
+    onCancel?: ()=>void,
     hideCancel:boolean
 };
 
@@ -47,7 +47,7 @@ export const useUIStore=create<UIStore>((set)=>({
     showToast: (message,duration=3000)=>set(
          { toast:{
             message,
-            duration
+            duration:(message.length>50 && duration<5000)?5000:duration
          }}
     ),
     hideToast: ()=>set({toast:null})    

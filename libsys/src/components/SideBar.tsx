@@ -13,27 +13,9 @@ import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';   
 import { useUIStore } from '@/store/uiStore';   
+import MENU from '@/lib/menuConfig'
 //Menu structure (see _Layout.cshtml)
-const MENU=[
-    {
-        key:'book',
-        label:'book',
-        items:[
-            {label:'Management',href:'/backend/books'},
-            {label:'Borrow',href:'/backend/borrow'},
-            {label:'Return',href:'/backend/return'}
-        ]
-    },
-    {
-        key:'setting',
-        label:'setting',
-        items:[
-            {label:'Calendar',href:'/backend/calendar'},
-            {label:'Role & Quota',href:'/backend/role-quota'},
-            {label:'Categories',href:'/backend/categories'}
-        ]
-    }
-];
+const SystemMenu=MENU;
 
 export default function SideBar(){
     const pathName=usePathname();
@@ -53,7 +35,7 @@ export default function SideBar(){
     }
     const [openMenu,setOpenMenu]=useState<string>(getDefaultOpen);
     /**↑為什麼「useState」明明是要回傳一個string,但初值卻放入一個函數「getDefaultOpen」!?
-     * 這招叫「lazy initiaizer」
+     * 這招叫「lazy initializer」
      * 
      * 因為useState的API是長這樣的「 useState<S>(initialState: S | (() => S)): [S, setState] 」,意即:initialState不是S型態要不就是一個回傳S的callback
      * 
@@ -89,7 +71,7 @@ export default function SideBar(){
     <div className={`${sidebarBg} w-32 h-full flex-shrink-0
                      flex flex-col pt-5`}>
       {/* ── Menu Items ────────────────────────────────────────── */}       
-      { MENU.map(section=>(
+      { SystemMenu.map(section=>(
             <div key={section.key}>
                 {/* Section Header — Book / Setting */}
                 {/* C#: expandable-link with ▲ / ▼               */}
